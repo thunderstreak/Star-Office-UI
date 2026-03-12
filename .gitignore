@@ -10,6 +10,7 @@ venv/
 
 # OS/editor
 .DS_Store
+.idea
 
 # Runtime state (local only)
 state.json

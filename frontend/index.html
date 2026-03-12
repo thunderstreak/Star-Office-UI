@@ -1138,13 +1138,13 @@
             <div id="loading-progress-bar"></div>
         </div>
     </div>
-    
+
     <div id="main-stage">
         <div id="game-container">
             <div id="game-skeleton"><div class="hint">正在进入像素办公室…</div></div>
             <div id="status-text">加载中...</div>
         </div>
-    
+
     <!-- 底部面板容器 -->
     <div id="bottom-panels">
         <!-- Memo 面板 -->
@@ -1157,7 +1157,7 @@
             </div>
             <div class="memo-decoration">─ ─ ─ ─ ─</div>
         </div>
-        
+
         <!-- 状态控制栏 -->
         <div id="control-bar">
             <div id="control-bar-title">Star 状态</div>
@@ -1166,7 +1166,7 @@
                 <button id="btn-state-writing" onclick="setState('writing','工作中')">工作</button>
                 <button id="btn-state-syncing" onclick="setState('syncing','同步中')">同步</button>
                 <button id="btn-state-error" onclick="setState('error','报警中')">报警</button>
-                <button id="btn-open-drawer" onclick="toggleAssetDrawer()">装修房间</button>
+                <!--<button id="btn-open-drawer" onclick="toggleAssetDrawer()">装修房间</button>-->
             </div>
         </div>
 
@@ -1179,7 +1179,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="asset-highlight"></div>
     <div id="room-loading-overlay" aria-live="polite" aria-busy="true">
         <div class="room-loading-inner">
@@ -1500,7 +1500,7 @@
 
         // 检测浏览器是否支持 WebP
         let supportsWebP = false;
-        
+
         // 方法 1: 使用 canvas 检测
         function checkWebPSupport() {
             return new Promise((resolve) => {
@@ -1512,7 +1512,7 @@
                 }
             });
         }
-        
+
         // 方法 2: 使用 image 检测（备用）
         function checkWebPSupportFallback() {
             return new Promise((resolve) => {
@@ -1550,11 +1550,11 @@
         async function loadMemo() {
             const memoDate = document.getElementById('memo-date');
             const memoContent = document.getElementById('memo-content');
-            
+
             try {
                 const response = await fetch('/yesterday-memo?t=' + Date.now(), { cache: 'no-store' });
                 const data = await response.json();
-                
+
                 if (data.success && data.memo) {
                     memoDate.textContent = data.date || '';
                     memoContent.innerHTML = data.memo.replace(/\n/g, '<br>');
@@ -1609,7 +1609,7 @@
                 hideLoadingOverlay();
             }
         }, 8000);
-        
+
         // 懒加载逻辑已取消（体验优先：装饰首屏直接出现）
 
         const STATES = {
@@ -3549,7 +3549,7 @@ function toggleBrokerPanel() {
                     let sprite;
                     const isDemoNika = DEMO_MODE && (agent.agentId === 'demo_nika' || agent.name === '尼卡');
                     const isDemoMercury = DEMO_MODE && (agent.agentId === 'demo_mercury' || agent.name === '水星');
-                    
+
                     if (isDemoNika || isDemoMercury) {
                         // 统一使用动态像素角色，避免依赖已删除的 demo 静态图
                         const animKey = 'guest_anim_1';
@@ -3960,16 +3960,16 @@ function toggleBrokerPanel() {
             loadingProgressBar = document.getElementById('loading-progress-bar');
             loadingText = document.getElementById('loading-text');
             loadingProgressContainer = document.getElementById('loading-progress-container');
-            
+
             // 设置资源总数（全部首屏加载：装饰也第一时间出现）
             totalAssets = 15;
             loadedAssets = 0;
-            
+
             // 加载进度监听
             this.load.on('filecomplete', () => {
                 updateLoadingProgress();
             });
-            
+
             this.load.on('complete', () => {
                 hideLoadingOverlay();
             });
@@ -4110,7 +4110,7 @@ function toggleBrokerPanel() {
             // Expose to global for click handler
             window.plantSprite = plant;
             window.plantFrameCount = plantFrameCount;
-            
+
             plant.on('pointerdown', () => {
                 const next = Math.floor(Math.random() * window.plantFrameCount);
                 window.plantSprite.setFrame(next);
@@ -4123,7 +4123,7 @@ function toggleBrokerPanel() {
             plant2.setInteractive({ useHandCursor: true });
             // Expose to global for click handler
             window.plantSprite2 = plant2;
-            
+
             plant2.on('pointerdown', () => {
                 const next = Math.floor(Math.random() * window.plantFrameCount);
                 window.plantSprite2.setFrame(next);
@@ -4136,7 +4136,7 @@ function toggleBrokerPanel() {
             plant3.setInteractive({ useHandCursor: true });
             // Expose to global for click handler
             window.plantSprite3 = plant3;
-            
+
             plant3.on('pointerdown', () => {
                 const next = Math.floor(Math.random() * window.plantFrameCount);
                 window.plantSprite3.setFrame(next);
@@ -4151,7 +4151,7 @@ function toggleBrokerPanel() {
             // Expose to global for click handler
             window.posterSprite = poster;
             window.posterFrameCount = postersFrameCount;
-            
+
             poster.on('pointerdown', () => {
                 const next = Math.floor(Math.random() * window.posterFrameCount);
                 window.posterSprite.setFrame(next);
