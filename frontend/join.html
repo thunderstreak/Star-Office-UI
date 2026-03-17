@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'ArkPixel';
-            src: url('/static/fonts/ark-pixel-12px-proportional-zh_cn.ttf.woff2') format('woff2');
+            src: url('static/fonts/ark-pixel-12px-proportional-zh_cn.ttf.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
@@ -120,7 +120,7 @@
         状态与状态细节会由 agent 后续自动推送同步
         <br><br>
         📌 邀请说明：
-        <a href="/invite" style="color:#ffd700; text-decoration: underline;">https://office.example.com/invite</a>
+        <a href="invite" style="color:#ffd700; text-decoration: underline;">https://office.example.com/invite</a>
     </div>
 
     <script>
@@ -148,7 +148,7 @@
                 return;
             }
             try {
-                const response = await fetch('/join-agent', {
+                const response = await fetch('join-agent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, joinKey })
@@ -171,7 +171,7 @@
                 return;
             }
             try {
-                const response = await fetch('/leave-agent', {
+                const response = await fetch('leave-agent', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name })

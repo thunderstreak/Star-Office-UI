@@ -1583,8 +1583,8 @@ def assets_home_favorites_list():
             out.append({
                 "id": it.get("id"),
                 "path": rel,
-                "url": f"/assets/home-favorites/file/{fn}",
-                "thumb_url": f"/assets/home-favorites/file/{fn}",
+                "url": f"assets/home-favorites/file/{fn}",
+                "thumb_url": f"assets/home-favorites/file/{fn}",
                 "created_at": it.get("created_at") or "",
             })
         out.sort(key=lambda x: x.get("created_at") or "", reverse=True)

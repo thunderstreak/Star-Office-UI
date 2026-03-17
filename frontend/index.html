@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'ArkPixel';
-            src: url('/static/fonts/ark-pixel-12px-proportional-zh_cn.ttf.woff2') format('woff2');
+            src: url('static/fonts/ark-pixel-12px-proportional-zh_cn.ttf.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
         }
@@ -468,16 +468,16 @@
         }
         #asset-move-row .btn-move { color:#1f2937; }
         #asset-move-row .btn-move {
-            background-image:url('/static/btn-move-house-sprite.png?v={{VERSION_TIMESTAMP}}');
+            background-image:url('static/btn-move-house-sprite.png?v={{VERSION_TIMESTAMP}}');
         }
         #asset-move-row .btn-home {
-            background-image:url('/static/btn-back-home-sprite.png?v={{VERSION_TIMESTAMP}}');
+            background-image:url('static/btn-back-home-sprite.png?v={{VERSION_TIMESTAMP}}');
         }
         #asset-broker-row .btn-broker {
-            background-image:url('/static/btn-broker-sprite.png?v={{VERSION_TIMESTAMP}}');
+            background-image:url('static/btn-broker-sprite.png?v={{VERSION_TIMESTAMP}}');
         }
         #asset-broker-row .btn-diy {
-            background-image:url('/static/btn-diy-sprite.png?v={{VERSION_TIMESTAMP}}');
+            background-image:url('static/btn-diy-sprite.png?v={{VERSION_TIMESTAMP}}');
         }
         #asset-manual-panel {
             margin-top:0;
@@ -648,7 +648,7 @@
         #control-bar #btn-state-writing,
         #control-bar #btn-state-syncing,
         #control-bar #btn-state-error {
-            background-image: url('/static/btn-state-sprite.png?v={{VERSION_TIMESTAMP}}');
+            background-image: url('static/btn-state-sprite.png?v={{VERSION_TIMESTAMP}}');
             background-color: transparent !important;
             background-repeat: no-repeat;
             background-size: 300% 100%;
@@ -683,7 +683,7 @@
         }
         /* 装修房间按钮使用像素精灵皮肤 */
         #control-bar #btn-open-drawer {
-            background-image: url('/static/btn-open-drawer-sprite.png?v={{VERSION_TIMESTAMP}}') !important;
+            background-image: url('static/btn-open-drawer-sprite.png?v={{VERSION_TIMESTAMP}}') !important;
             background-color: transparent !important;
             background-repeat: no-repeat !important;
             background-size: 300% 100% !important;
@@ -838,7 +838,7 @@
             position: relative;
             width: 460px;
             height: 300px;
-            background-image: url('/static/memo-bg.webp');
+            background-image: url('static/memo-bg.webp');
             background-size: cover;
             background-position: center;
             border: 4px solid #0e1119;
@@ -1275,22 +1275,22 @@
     <div id="coords-overlay" style="display:none; position:fixed; pointer-events:none; background:rgba(0,0,0,0.85); color:#fff; font-family:ArkPixel,monospace; font-size:14px; padding:8px 12px; border-radius:4px; z-index:99999;">
         <div id="coords-display">X: 0 | Y: 0</div>
     </div>
-    <button id="coords-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
+    <!--<button id="coords-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
         显示坐标
-    </button>
-    <button id="pan-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); left:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
+    </button>-->
+    <button id="pan-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
         移动视野
     </button>
-    <div id="lang-toggle-group" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 52px); left:12px; z-index:1000002; display:flex; gap:2px; align-items:center;">
+    <!--<div id="lang-toggle-group" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 52px); left:12px; z-index:1000002; display:flex; gap:2px; align-items:center;">
         <button id="lang-btn-en" onclick="setUILanguage('en')" style="padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">EN</button>
         <button id="lang-btn-jp" onclick="setUILanguage('ja')" style="padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">JP</button>
         <button id="lang-btn-cn" onclick="setUILanguage('zh')" style="padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">CN</button>
-    </div>
+    </div>-->
 
-    <script src="/static/vendor/phaser-3.80.1.min.js?v={{VERSION_TIMESTAMP}}"></script>
+    <script src="static/vendor/phaser-3.80.1.min.js?v={{VERSION_TIMESTAMP}}"></script>
     <script>
         // 简易中英文切换
-        let uiLang = localStorage.getItem('uiLang') || 'en';
+        let uiLang = localStorage.getItem('uiLang') || 'zh';
         const I18N = {
             zh: {
                 controlTitle: 'Star 状态',
@@ -1390,7 +1390,7 @@
         function ensureMemoBgVisible() {
             const panel = document.getElementById('memo-panel');
             if (!panel) return;
-            panel.style.backgroundImage = "url('/static/memo-bg.webp?v={{VERSION_TIMESTAMP}}')";
+            panel.style.backgroundImage = "url('static/memo-bg.webp?v={{VERSION_TIMESTAMP}}')";
             panel.classList.remove('no-bg');
         }
 
@@ -1531,6 +1531,17 @@
             height: 720,
             parent: 'game-container',
             pixelArt: true,
+            input: {
+                mouse: {
+                    preventDefaultDown: false,
+                    preventDefaultUp: false,
+                    preventDefaultMove: false,
+                    preventDefaultWheel: false
+                },
+                touch: {
+                    capture: false
+                }
+            },
             // 桌面端保持 FIT；手机端用 RESIZE，并在相机里按高度做 fit（可横向 pan）
             scale: {
                 mode: IS_TOUCH_DEVICE ? Phaser.Scale.RESIZE : Phaser.Scale.FIT,
@@ -1552,7 +1563,7 @@
             const memoContent = document.getElementById('memo-content');
 
             try {
-                const response = await fetch('/yesterday-memo?t=' + Date.now(), { cache: 'no-store' });
+                const response = await fetch('yesterday-memo?t=' + Date.now(), { cache: 'no-store' });
                 const data = await response.json();
 
                 if (data.success && data.memo) {
@@ -1725,7 +1736,7 @@
 
         // 状态控制栏函数（用于测试）
         function setState(state, detail) {
-            fetch('/set_state', {
+            fetch('set_state', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ state, detail })
@@ -1763,7 +1774,7 @@
                 return;
             }
             try {
-                const res = await fetch('/assets/auth', {
+                const res = await fetch('assets/auth', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ password: val })
@@ -2165,12 +2176,12 @@
                 let serverPositions = {};
                 let serverDefaults = {};
                 try {
-                    const res = await fetch('/assets/positions?t=' + Date.now(), { cache: 'no-store' });
+                    const res = await fetch('assets/positions?t=' + Date.now(), { cache: 'no-store' });
                     const data = await res.json();
                     if (data && data.ok && data.items) serverPositions = data.items;
                 } catch (e) {}
                 try {
-                    const res2 = await fetch('/assets/defaults?t=' + Date.now(), { cache: 'no-store' });
+                    const res2 = await fetch('assets/defaults?t=' + Date.now(), { cache: 'no-store' });
                     const data2 = await res2.json();
                     if (data2 && data2.ok && data2.items) serverDefaults = data2.items;
                 } catch (e) {}
@@ -2489,7 +2500,7 @@
             const out = document.getElementById('asset-upload-result');
             try {
                 const selectedPath = (selectedAssetInfo && selectedAssetInfo.path) ? selectedAssetInfo.path : '';
-                const res = await fetch('/assets/list?t=' + Date.now(), { cache: 'no-store' });
+                const res = await fetch('assets/list?t=' + Date.now(), { cache: 'no-store' });
                 const data = await res.json();
                 assetListData = data.items || [];
 
@@ -2658,7 +2669,7 @@
             }
 
             out.textContent = '⏳ 正在上传并替换，请稍候...';
-            const res = await fetch('/assets/upload', { method: 'POST', body: fd });
+            const res = await fetch('assets/upload', { method: 'POST', body: fd });
             const data = await res.json();
             if (!data.ok) {
                 out.textContent = `❌ 更新失败：${data.msg || res.status}`;
@@ -2848,13 +2859,13 @@ function toggleBrokerPanel() {
 
         async function ensureGeminiConfigLoaded() {
             try {
-                const authRes = await fetch('/assets/auth/status', { cache: 'no-store' });
+                const authRes = await fetch('assets/auth/status', { cache: 'no-store' });
                 const authData = await authRes.json();
                 assetDrawerAuthed = !!(authData && authData.ok && authData.authed);
                 updateAssetAuthUI();
                 if (!assetDrawerAuthed) return;
 
-                const res = await fetch('/config/gemini', { cache: 'no-store' });
+                const res = await fetch('config/gemini', { cache: 'no-store' });
                 const data = await res.json();
                 if (data && data.ok) {
                     window.geminiConfig = {
@@ -2882,7 +2893,7 @@ function toggleBrokerPanel() {
                 return;
             }
             try {
-                const res = await fetch('/config/gemini', {
+                const res = await fetch('config/gemini', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ api_key: key, model: 'nanobanana-pro' })
@@ -2916,7 +2927,7 @@ function toggleBrokerPanel() {
 
         // Async generation: start task then poll for result (avoids Cloudflare 524 timeout)
         async function _startAndPollGeneration(body, out, progressMsg) {
-            const res = await fetch('/assets/generate-rpg-background', {
+            const res = await fetch('assets/generate-rpg-background', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -2938,7 +2949,7 @@ function toggleBrokerPanel() {
                 const elapsed = Math.round((Date.now() - startTime) / 1000);
                 out.textContent = progressMsg + '（已等待 ' + elapsed + '秒）' + '.'.repeat(dots);
                 try {
-                    const pollRes = await fetch('/assets/generate-rpg-background/poll?task_id=' + encodeURIComponent(taskId));
+                    const pollRes = await fetch('assets/generate-rpg-background/poll?task_id=' + encodeURIComponent(taskId));
                     const pollData = await pollRes.json();
                     if (pollData.status === 'pending') continue;
                     return pollData; // done or error
@@ -3049,7 +3060,7 @@ function toggleBrokerPanel() {
             showRoomLoadingOverlay();
             out.textContent = '🏡 正在回老家（恢复初始底图）...';
             try {
-                const res = await fetch('/assets/restore-reference-background', { method: 'POST' });
+                const res = await fetch('assets/restore-reference-background', { method: 'POST' });
                 const data = await res.json();
                 if (!data.ok) {
                     out.textContent = `❌ 恢复失败：${data.msg || res.status}`;
@@ -3084,7 +3095,7 @@ function toggleBrokerPanel() {
             showRoomLoadingOverlay();
             out.textContent = '↩️ 正在回退到最近一次生成底图...';
             try {
-                const res = await fetch('/assets/restore-last-generated-background', { method: 'POST' });
+                const res = await fetch('assets/restore-last-generated-background', { method: 'POST' });
                 const data = await res.json();
                 if (!data.ok) {
                     out.textContent = `❌ 回退失败：${data.msg || res.status}`;
@@ -3123,7 +3134,7 @@ function toggleBrokerPanel() {
                 // 使用缓存，避免频繁请求
             } else {
                 try {
-                    const data = await fetchJsonSafe('/assets/home-favorites/list', { cache: 'no-store' });
+                    const data = await fetchJsonSafe('assets/home-favorites/list', { cache: 'no-store' });
                     if (data && data.ok && Array.isArray(data.items)) {
                         homeFavoritesCache = data.items;
                         homeFavoritesLoadedAt = now;
@@ -3157,7 +3168,7 @@ function toggleBrokerPanel() {
             flashButtonActive(btn);
             const out = document.getElementById('asset-move-result') || document.getElementById('asset-upload-result');
             try {
-                const data = await fetchJsonSafe('/assets/home-favorites/save-current', { method: 'POST' });
+                const data = await fetchJsonSafe('assets/home-favorites/save-current', { method: 'POST' });
                 if (!data.ok) {
                     out.textContent = `❌ 收藏失败：${data.msg || 'unknown error'}`;
                     return;
@@ -3175,7 +3186,7 @@ function toggleBrokerPanel() {
             showRoomLoadingOverlay();
             setWorkingStatus('正在替换收藏地图');
             try {
-                const data = await fetchJsonSafe('/assets/home-favorites/apply', {
+                const data = await fetchJsonSafe('assets/home-favorites/apply', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
@@ -3199,7 +3210,7 @@ function toggleBrokerPanel() {
             if (!id) return;
             if (!window.confirm('确定删除这个收藏吗？删除后不可恢复。')) return;
             try {
-                const data = await fetchJsonSafe('/assets/home-favorites/delete', {
+                const data = await fetchJsonSafe('assets/home-favorites/delete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
@@ -3224,7 +3235,7 @@ function toggleBrokerPanel() {
             }
             if (!window.confirm(`⚠️ 确定将 ${path} 重置为默认资产吗？`)) return;
             try {
-                const res = await fetch('/assets/restore-default', {
+                const res = await fetch('assets/restore-default', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ path })
@@ -3250,7 +3261,7 @@ function toggleBrokerPanel() {
             }
             if (!window.confirm(`⚠️ 确定将 ${path} 回退到上一版吗？`)) return;
             try {
-                const res = await fetch('/assets/restore-prev', {
+                const res = await fetch('assets/restore-prev', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ path })
@@ -3331,7 +3342,7 @@ function toggleBrokerPanel() {
         }
 
         function leaveGuestAgent(agentId, name) {
-            fetch('/leave-agent', {
+            fetch('leave-agent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ agentId, name })
@@ -3366,7 +3377,7 @@ function toggleBrokerPanel() {
         }
 
         function approveGuestAgent(agentId) {
-            fetch('/agent-approve', {
+            fetch('agent-approve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ agentId })
@@ -3383,7 +3394,7 @@ function toggleBrokerPanel() {
         }
 
         function rejectGuestAgent(agentId) {
-            fetch('/agent-reject', {
+            fetch('agent-reject', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ agentId })
@@ -3840,7 +3851,7 @@ function toggleBrokerPanel() {
             // demo 随机状态先更新（不依赖后端）
             maybeRandomizeDemoVisitors();
 
-            return fetch('/agents?t=' + Date.now(), { cache: 'no-store' })
+            return fetch('agents?t=' + Date.now(), { cache: 'no-store' })
                 .then(response => response.json())
                 .then(data => {
                     // 无论后端返回是否为数组，demo=1 都应保证本地 demo 访客可见
@@ -3926,7 +3937,7 @@ function toggleBrokerPanel() {
             setTimeout(async () => {
                 // 动态探测 flowers 精灵表帧规格（避免写死 65x65 导致显示比例异常）
                 try {
-                    const res = await fetch('/assets/list?t=' + Date.now(), { cache: 'no-store' });
+                    const res = await fetch('assets/list?t=' + Date.now(), { cache: 'no-store' });
                     const data = await res.json();
                     if (data && data.ok && Array.isArray(data.items)) {
                         const flowerItem = data.items.find(it => (it.path || '').toLowerCase().includes('flowers-bloom-v2'));
@@ -3945,7 +3956,7 @@ function toggleBrokerPanel() {
                 // Only fetch /assets/positions and /assets/defaults when user is authed,
                 // to avoid 401 Unauthorized on first load for new visitors (issue #54).
                 try {
-                    const authRes = await fetch('/assets/auth/status', { cache: 'no-store' });
+                    const authRes = await fetch('assets/auth/status', { cache: 'no-store' });
                     const authData = await authRes.json();
                     if (authData && authData.ok && authData.authed) {
                         await applySavedPositionOverrides();
@@ -3976,53 +3987,53 @@ function toggleBrokerPanel() {
 
             // cache-busting to avoid stale background on client/CDN
             // use smaller/new map version provided by user
-            this.load.image('office_bg', '/static/office_bg_small.webp?v={{VERSION_TIMESTAMP}}');
-            this.load.spritesheet('star_idle', '/static/star-idle-v5.png?v={{VERSION_TIMESTAMP}}', { frameWidth: 256, frameHeight: 256 });
+            this.load.image('office_bg', 'static/office_bg_small.webp?v={{VERSION_TIMESTAMP}}');
+            this.load.spritesheet('star_idle', 'static/star-idle-v5.png?v={{VERSION_TIMESTAMP}}', { frameWidth: 256, frameHeight: 256 });
 
             // Furniture
-            this.load.image('sofa_idle', '/static/sofa-idle-v3.png?v={{VERSION_TIMESTAMP}}');
-            this.load.image('sofa_shadow', '/static/sofa-shadow-v1.png?v={{VERSION_TIMESTAMP}}');
+            this.load.image('sofa_idle', 'static/sofa-idle-v3.png?v={{VERSION_TIMESTAMP}}');
+            this.load.image('sofa_shadow', 'static/sofa-shadow-v1.png?v={{VERSION_TIMESTAMP}}');
 
             // Decor
-            this.load.spritesheet('plants', '/static/plants-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
-            this.load.spritesheet('posters', '/static/posters-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
-            this.load.spritesheet('coffee_machine', '/static/coffee-machine-v3-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 230, frameHeight: 230 });
-            this.load.image('coffee_machine_shadow', '/static/coffee-machine-shadow-v1.png?v={{VERSION_TIMESTAMP}}');
-            this.load.spritesheet('serverroom', '/static/serverroom-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 180, frameHeight: 251 });
+            this.load.spritesheet('plants', 'static/plants-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
+            this.load.spritesheet('posters', 'static/posters-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
+            this.load.spritesheet('coffee_machine', 'static/coffee-machine-v3-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 230, frameHeight: 230 });
+            this.load.image('coffee_machine_shadow', 'static/coffee-machine-shadow-v1.png?v={{VERSION_TIMESTAMP}}');
+            this.load.spritesheet('serverroom', 'static/serverroom-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 180, frameHeight: 251 });
 
             // Error / bug animation: 180x180, 96 frames (repacked grid)
-            this.load.spritesheet('error_bug', '/static/error-bug-spritesheet-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 220, frameHeight: 220 });
+            this.load.spritesheet('error_bug', 'static/error-bug-spritesheet-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 220, frameHeight: 220 });
 
             // 运行时 Gemini 配置（用于搬家/中介生图）
             this.geminiConfig = { hasKey: false, model: 'gemini-3.1-flash-image-preview' };
 
             // Cat spritesheet: 160x160, 4x4=16 cats
-            this.load.spritesheet('cats', '/static/cats-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
+            this.load.spritesheet('cats', 'static/cats-spritesheet.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 160, frameHeight: 160 });
 
             // Desk
             // Star working animation: repacked to grid to avoid WebGL max texture size limits
             // NOTE: prefer WebP for size, PNG fallback
             // 动态替换后按最新素材识别：当前 writing 素材为 300x300 单帧
-            this.load.spritesheet('star_working', '/static/star-working-spritesheet-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 300, frameHeight: 300 });
+            this.load.spritesheet('star_working', 'static/star-working-spritesheet-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 300, frameHeight: 300 });
 
             // Sync state animation (256x256, 多帧): 非同步显示首帧，同步从第2帧循环
-            this.load.spritesheet('sync_anim', '/static/sync-animation-v3-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 256, frameHeight: 256 });
+            this.load.spritesheet('sync_anim', 'static/sync-animation-v3-grid.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 256, frameHeight: 256 });
 
             // Memo background image
             // memo 底图固定走 png，避免某些端 webp 透明通道异常导致“底图丢失”
-            this.load.image('memo_bg', '/static/memo-bg.webp?v={{VERSION_TIMESTAMP}}');
+            this.load.image('memo_bg', 'static/memo-bg.webp?v={{VERSION_TIMESTAMP}}');
             // Desk v2 (webp only)
-            this.load.image('desk_v2', '/static/desk-v3.webp?v={{VERSION_TIMESTAMP}}');
+            this.load.image('desk_v2', 'static/desk-v3.webp?v={{VERSION_TIMESTAMP}}');
             // Flower spritesheet (65x65, 16 frames)
-            this.load.spritesheet('flowers', '/static/flowers-bloom-v2.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: FLOWERS_FRAME_W, frameHeight: FLOWERS_FRAME_H });
+            this.load.spritesheet('flowers', 'static/flowers-bloom-v2.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: FLOWERS_FRAME_W, frameHeight: FLOWERS_FRAME_H });
 
             // Guest/Demo agent sprites
-            this.load.spritesheet('guest_anim_1', '/static/guest_anim_1.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
-            this.load.spritesheet('guest_anim_2', '/static/guest_anim_2.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
-            this.load.spritesheet('guest_anim_3', '/static/guest_anim_3.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
-            this.load.spritesheet('guest_anim_4', '/static/guest_anim_4.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
-            this.load.spritesheet('guest_anim_5', '/static/guest_anim_5.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
-            this.load.spritesheet('guest_anim_6', '/static/guest_anim_6.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_1', 'static/guest_anim_1.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_2', 'static/guest_anim_2.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_3', 'static/guest_anim_3.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_4', 'static/guest_anim_4.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_5', 'static/guest_anim_5.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
+            this.load.spritesheet('guest_anim_6', 'static/guest_anim_6.webp?v={{VERSION_TIMESTAMP}}', { frameWidth: 32, frameHeight: 32 });
         }
 
         function create() {
@@ -4287,12 +4298,14 @@ function toggleBrokerPanel() {
             coordsToggle = document.getElementById('coords-toggle');
 
             // guest agent 将由 /agents 动态拉取并渲染到右侧访客列表
-            coordsToggle.addEventListener('click', () => {
-                showCoords = !showCoords;
-                coordsOverlay.style.display = showCoords ? 'block' : 'none';
-                coordsToggle.textContent = showCoords ? t('hideCoords') : t('showCoords');
-                coordsToggle.style.background = showCoords ? '#e94560' : '#333';
-            });
+            if (coordsToggle) {
+                coordsToggle.addEventListener('click', () => {
+                    showCoords = !showCoords;
+                    coordsOverlay.style.display = showCoords ? 'block' : 'none';
+                    coordsToggle.textContent = showCoords ? t('hideCoords') : t('showCoords');
+                    coordsToggle.style.background = showCoords ? '#e94560' : '#333';
+                });
+            }
 
             // 允许手机端“拖动/滑动”来移动视野（本质：移动 Phaser Camera）
             // iPhone 等触屏设备默认开启；桌面端默认关闭（可手动开）。
@@ -4663,7 +4676,7 @@ function toggleBrokerPanel() {
         }
 
         function fetchStatus() {
-            return fetch('/status', { cache: 'no-store' })
+            return fetch('status', { cache: 'no-store' })
                 .then(response => response.json())
                 .then(data => {
                     try {
