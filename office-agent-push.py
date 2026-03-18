@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-海辛办公室 - Agent 状态主动推送脚本
+UClaw的办公室 - Agent 状态主动推送脚本
 
 用法：
 1. 填入下面的 JOIN_KEY（你从海辛那里拿到的一次性 join key）
 2. 填入 AGENT_NAME（你想要在办公室里显示的名字）
 3. 运行：python office-agent-push.py
-4. 脚本会自动先 join（首次运行），然后每 30s 向海辛办公室推送一次你的当前状态
+4. 脚本会自动先 join（首次运行），然后每 30s 向UClaw的办公室推送一次你的当前状态
 """
 
 import json
@@ -18,7 +18,7 @@ from datetime import datetime
 # === 你需要填入的信息 ===
 JOIN_KEY = ""   # 必填：你的一次性 join key
 AGENT_NAME = "" # 必填：你在办公室里的名字
-OFFICE_URL = "https://office.hyacinth.im"  # 海辛办公室地址（一般不用改）
+OFFICE_URL = "https://office.hyacinth.im"  # UClaw的办公室地址（一般不用改）
 
 # === 推送配置 ===
 PUSH_INTERVAL_SECONDS = 15  # 每隔多少秒推送一次（更实时）
@@ -219,7 +219,7 @@ def do_join(local):
             local["joined"] = True
             local["agentId"] = data.get("agentId")
             save_local_state(local)
-            print(f"✅ 已加入海辛办公室，agentId={local['agentId']}")
+            print(f"✅ 已加入UClaw的办公室，agentId={local['agentId']}")
             return True
     print(f"❌ 加入失败：{r.text}")
     return False
