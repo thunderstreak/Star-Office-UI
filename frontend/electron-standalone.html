@@ -5198,16 +5198,29 @@ function toggleBrokerPanel() {
             const MAP_W = config.width;
             const MAP_H = config.height;
             function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-            function maxScrollX() {
+            function getHorizontalScrollBounds() {
                 const viewportW = camera.width / Math.max(0.01, camera.zoom);
-                return Math.max(0, MAP_W - viewportW);
+                // Phaser camera scroll uses a centered origin by default, so the
+                // visible world starts after an extra half-viewport padding when zoom < 1.
+                const originPadX = Math.max(0, (viewportW - camera.width) / 2);
+                return {
+                    min: originPadX,
+                    max: Math.max(originPadX, MAP_W - viewportW + originPadX),
+                    viewportW
+                };
+            }
+            function minScrollX() {
+                return getHorizontalScrollBounds().min;
+            }
+            function maxScrollX() {
+                return getHorizontalScrollBounds().max;
             }
             function maxScrollY() {
                 const viewportH = camera.height / Math.max(0.01, camera.zoom);
                 return Math.max(0, MAP_H - viewportH);
             }
             function clampCameraScroll() {
-                camera.scrollX = clamp(camera.scrollX, 0, maxScrollX());
+                camera.scrollX = clamp(camera.scrollX, minScrollX(), maxScrollX());
                 camera.scrollY = clamp(camera.scrollY, 0, maxScrollY());
             }
 
@@ -5227,17 +5240,19 @@ function toggleBrokerPanel() {
 
                 // 按 candidateZoom 计算：viewport 在世界坐标里的宽高
                 const viewW = w / candidateZoom;
-                const maxX = Math.max(0, MAP_W - viewW);
+                const originPadX = Math.max(0, (viewW - w) / 2);
+                const minX = originPadX;
+                const maxX = Math.max(minX, MAP_W - viewW + originPadX);
 
                 camera.setZoom(candidateZoom);
-                camera.scrollX = Math.min(camera.scrollX, maxX);
+                camera.scrollX = clamp(camera.scrollX, minX, maxX);
                 camera.scrollY = 0;
 
                 // 仅在未手动平移过时才居中（避免把用户拖好的位置冲掉）
                 if (!hasManuallyPanned) {
                     camera.centerOn(MAP_W / 2, MAP_H / 2);
                 }
-                camera.scrollX = clamp(camera.scrollX, 0, maxX);
+                camera.scrollX = clamp(camera.scrollX, minX, maxX);
                 camera.scrollY = 0;
             }
             applyMobileCameraFit();
@@ -5310,7 +5325,7 @@ function toggleBrokerPanel() {
                         // 横向拖动交给办公室视野；阻止浏览器默认滚动
                         e.preventDefault();
                         hasManuallyPanned = true;
-                        camera.scrollX = clamp(touchPan.sx - dx, 0, maxScrollX());
+                        camera.scrollX = clamp(touchPan.sx - dx, minScrollX(), maxScrollX());
                     }
                     // lock==='y' 时不阻止默认，交给页面纵向滚动
                 }, { passive: false });
@@ -5347,7 +5362,7 @@ function toggleBrokerPanel() {
                 // 手指向右拖，视野跟着向右看：camera scroll 向左减小（反向）
                 const newX = panStart.sx - dx;
                 hasManuallyPanned = true;
-                camera.scrollX = clamp(newX, 0, maxScrollX());
+                camera.scrollX = clamp(newX, minScrollX(), maxScrollX());
 
                 // 桌面端保留自由二维拖动
                 if (!isTouchDevice) {
