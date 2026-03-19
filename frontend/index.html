@@ -1159,16 +1159,16 @@
         </div>
 
         <!-- 状态控制栏 -->
-        <div id="control-bar">
+        <!--<div id="control-bar">
             <div id="control-bar-title">Star 状态</div>
             <div id="control-buttons">
                 <button id="btn-state-idle" onclick="setState('idle','待命')">待命</button>
                 <button id="btn-state-writing" onclick="setState('writing','工作中')">工作</button>
                 <button id="btn-state-syncing" onclick="setState('syncing','同步中')">同步</button>
                 <button id="btn-state-error" onclick="setState('error','报警中')">报警</button>
-                <!--<button id="btn-open-drawer" onclick="toggleAssetDrawer()">装修房间</button>-->
+                <button id="btn-open-drawer" onclick="toggleAssetDrawer()">装修房间</button>
             </div>
-        </div>
+        </div>-->
 
         <!-- Guest Agent 名单面板（右下角） -->
         <div id="guest-agent-panel">
@@ -4091,7 +4091,7 @@ function toggleBrokerPanel() {
             sofa.anims.stop();
             sofa.setTexture('sofa_idle');
 
-            // 加像素风小牌匾：海辛小龙虾的办公室
+            // 加像素风小牌匾：UClaw的办公室
             const plaqueX = config.width / 2;
             const plaqueY = config.height - 36;
             const plaqueBg = game.add.rectangle(plaqueX, plaqueY, 420, 44, 0x5d4037);
