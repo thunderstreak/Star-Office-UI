@@ -6,10 +6,7 @@
   var COMMAND_SET_PAN_ENABLED = 'viewport.setPanEnabled';
   var QUERY_GET_STATE = 'viewport.getState';
   var EVENT_STATE_CHANGED = 'viewport.stateChanged';
-  var DEFAULT_TRUSTED_PARENT_ORIGINS_BY_IFRAME_ORIGIN = {
-    'https://starui.ubanquan.cn': ['https://test-h5.ubanquan.cn'],
-    'http://192.168.6.252:19000': ['http://192.168.6.252:3088'],
-  };
+  var ALLOW_ALL_PARENT_ORIGINS = true;
 
   function normalizeOrigin(rawValue) {
     if (typeof rawValue !== 'string') return null;
@@ -42,6 +39,10 @@
     }
 
     return origins;
+  }
+
+  function canPostToOrigin(origin) {
+    return origin === '*' || (typeof origin === 'string' && origin.trim().length > 0);
   }
 
   function resolveTrustedParentOrigins(options) {
@@ -82,11 +83,7 @@
     }
 
     var selfOrigin = normalizeOrigin(locationOrigin);
-    if (!selfOrigin) {
-      return [];
-    }
-
-    return normalizeOriginList(DEFAULT_TRUSTED_PARENT_ORIGINS_BY_IFRAME_ORIGIN[selfOrigin] || []);
+    return selfOrigin ? [selfOrigin] : [];
   }
 
   function isBridgeEnvelope(message) {
@@ -130,12 +127,16 @@
   }
 
   function isTrustedOrigin(origin, trustedOrigins) {
+    if (ALLOW_ALL_PARENT_ORIGINS) {
+      return typeof origin === 'string' && origin.length > 0;
+    }
     if (typeof origin !== 'string' || !origin) return false;
     return trustedOrigins.indexOf(origin) !== -1;
   }
 
   function createBridge(options) {
     var settings = options && typeof options === 'object' ? options : {};
+    var lastTrustedOrigin = null;
     var trustedOrigins = normalizeOriginList(
       Array.isArray(settings.parentOrigins) && settings.parentOrigins.length > 0
         ? settings.parentOrigins
@@ -164,8 +165,46 @@
         };
 
     function reply(targetOrigin, message) {
-      if (!isTrustedOrigin(targetOrigin, trustedOrigins)) return false;
+      if (!canPostToOrigin(targetOrigin)) return false;
+      if (!ALLOW_ALL_PARENT_ORIGINS && !isTrustedOrigin(targetOrigin, trustedOrigins)) return false;
       return postMessage(message, targetOrigin) !== false;
+    }
+
+    function replyToOrigins(origins, message) {
+      var rawTargets = Array.isArray(origins) ? origins : [origins];
+      var targets = [];
+      var sent = false;
+
+      for (var index = 0; index < rawTargets.length; index += 1) {
+        var rawTarget = rawTargets[index];
+        if (rawTarget === '*') {
+          targets.push('*');
+          continue;
+        }
+
+        var normalized = normalizeOrigin(rawTarget);
+        if (normalized) {
+          targets.push(normalized);
+        }
+      }
+
+      for (var targetIndex = 0; targetIndex < targets.length; targetIndex += 1) {
+        sent = reply(targets[targetIndex], message) || sent;
+      }
+
+      return sent;
+    }
+
+    function getPreferredReplyOrigins() {
+      if (canPostToOrigin(lastTrustedOrigin)) {
+        return [lastTrustedOrigin];
+      }
+
+      if (ALLOW_ALL_PARENT_ORIGINS) {
+        return ['*'];
+      }
+
+      return trustedOrigins.slice();
     }
 
     function getSerializableState() {
@@ -204,9 +243,10 @@
     function handleMessage(event) {
       var source = receiveSource();
       if (!event || typeof event !== 'object') return null;
-      if (!isTrustedOrigin(event.origin, trustedOrigins)) return null;
+      if (!ALLOW_ALL_PARENT_ORIGINS && !isTrustedOrigin(event.origin, trustedOrigins)) return null;
       if (source && event.source !== source) return null;
       if (!isBridgeEnvelope(event.data)) return null;
+      lastTrustedOrigin = event.origin;
 
       if (event.data.type === 'query') {
         return handleQuery(event.data, event.origin);
@@ -235,13 +275,13 @@
     }
 
     function notifyReady() {
-      if (trustedOrigins.length === 0) return false;
-      return reply(trustedOrigins[0], createReadyMessage(capabilities, getSerializableState()));
+      if (!ALLOW_ALL_PARENT_ORIGINS && trustedOrigins.length === 0) return false;
+      return replyToOrigins(getPreferredReplyOrigins(), createReadyMessage(capabilities, getSerializableState()));
     }
 
     function notifyStateChanged() {
-      if (trustedOrigins.length === 0) return false;
-      return reply(trustedOrigins[0], createStateEventMessage(getSerializableState()));
+      if (!ALLOW_ALL_PARENT_ORIGINS && trustedOrigins.length === 0) return false;
+      return replyToOrigins(getPreferredReplyOrigins(), createStateEventMessage(getSerializableState()));
     }
 
     return {
@@ -268,7 +308,7 @@
     normalizeOrigin: normalizeOrigin,
     normalizeOriginList: normalizeOriginList,
     resolveTrustedParentOrigins: resolveTrustedParentOrigins,
-    DEFAULT_TRUSTED_PARENT_ORIGINS_BY_IFRAME_ORIGIN: DEFAULT_TRUSTED_PARENT_ORIGINS_BY_IFRAME_ORIGIN,
+    ALLOW_ALL_PARENT_ORIGINS: ALLOW_ALL_PARENT_ORIGINS,
   };
 
   if (typeof module !== 'undefined' && module.exports) {
