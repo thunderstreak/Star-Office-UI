@@ -1904,9 +1904,9 @@
     <!--<button id="coords-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
         显示坐标
     </button>-->
-    <button id="pan-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
+    <!--<button id="pan-toggle" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 12px); right:12px; z-index:999999; padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">
         移动视野
-    </button>
+    </button>-->
     <!--<div id="lang-toggle-group" style="position:fixed; top:calc(env(safe-area-inset-top, 0px) + 52px); left:12px; z-index:999999; display:flex; align-items:center;">
         <button id="lang-btn-en" onclick="setUILanguage('en')" style="cursor:pointer;">EN</button>
         <button id="lang-btn-jp" onclick="setUILanguage('ja')" style="cursor:pointer;">JP</button>
@@ -1914,6 +1914,7 @@
     </div>-->
 
     <script src="static/memo-markdown.js?v={{VERSION_TIMESTAMP}}"></script>
+    <script src="static/embed-bridge.js?v={{VERSION_TIMESTAMP}}"></script>
     <script src="static/vendor/phaser-3.80.1.min.js"></script>
     <script>
         // 简易中英文切换
@@ -5363,6 +5364,7 @@ function toggleBrokerPanel() {
             const panToggle = document.getElementById('pan-toggle');
             const isTouchDevice = IS_TOUCH_DEVICE;
             let panEnabled = false;
+            let panBridge = null;
             let isPanning = false;
             let panStart = null; // {x,y,sx,sy}
             const camera = game.cameras.main;
@@ -5444,6 +5446,7 @@ function toggleBrokerPanel() {
             }
 
             function setPanEnabled(on) {
+                const didChange = panEnabled !== on;
                 panEnabled = on;
                 if (panToggle) {
                     panToggle.dataset.on = on ? '1' : '0';
@@ -5455,6 +5458,15 @@ function toggleBrokerPanel() {
                     const info = on ? '视野拖动已开启（可左右拖动画布）' : '视野拖动已关闭（点击左上角“移动视野”可开启）';
                     statusText.textContent = `[${getStateLabelByState(currentState)}] ${info}`;
                 }
+                if (didChange && panBridge && typeof panBridge.notifyStateChanged === 'function') {
+                    const bridgeRef = panBridge;
+                    if (typeof queueMicrotask === 'function') {
+                        queueMicrotask(() => bridgeRef.notifyStateChanged());
+                    }
+                    else {
+                        setTimeout(() => bridgeRef.notifyStateChanged(), 0);
+                    }
+                }
             }
 
             if (panToggle) {
@@ -5464,6 +5476,16 @@ function toggleBrokerPanel() {
             // 手机端默认关闭拖动画面：由左上角“移动视野”开关显式开启
             if (isTouchDevice) {
                 setPanEnabled(false);
+            }
+
+            const embedBridgeApi = window.starOfficeEmbedBridge;
+            if (embedBridgeApi && typeof embedBridgeApi.createBridge === 'function') {
+                panBridge = embedBridgeApi.createBridge({
+                    applyPanEnabled: setPanEnabled,
+                    getState: () => ({ panEnabled }),
+                });
+                panBridge.attach();
+                panBridge.notifyReady();
             }
 
             // iOS/Safari 手势策略：
