@@ -125,7 +125,8 @@ const LAYOUT = {
 
   // === 资源加载规则：哪些强制用 PNG（透明资源） ===
   forcePng: {
-    desk_v2: true // 新办公桌必须透明，强制 PNG
+    desk_v2: true, // 新办公桌必须透明，强制 PNG
+    'serverroom-spritesheet': true
   },
 
   // === 总资源数量（用于加载进度条） ===
