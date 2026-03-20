@@ -836,6 +836,15 @@
         /* Memo 区域 - 4:3 小正方形 */
         #memo-panel {
             position: relative;
+            --memo-ink: #3b3b32;
+            --memo-body-ink: #181410;
+            --memo-muted-ink: #2b241d;
+            --memo-accent: #1f2940;
+            --memo-frame: rgba(26, 27, 47, 0.2);
+            --memo-paper: rgba(247, 235, 196, 0.68);
+            --memo-code-bg: rgba(26, 27, 47, 0.9);
+            --memo-code-fg: #f7e9ab;
+            --memo-content-inset-left: 96px;
             width: 460px;
             height: 300px;
             background-image: url('static/memo-bg.webp');
@@ -844,6 +853,7 @@
             border: 4px solid #0e1119;
             border-radius: 0;
             padding: 14px 16px;
+            box-sizing: border-box;
             box-shadow: none;
             display: flex;
             flex-direction: column;
@@ -897,42 +907,144 @@
             background-image: none !important;
             background-color: #111827;
         }
+        .memo-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding-left: var(--memo-content-inset-left);
+            padding-right: 8px;
+            position: relative;
+            z-index: 1;
+        }
         #memo-title {
             color: #1a1b2f;
             font-size: 16px;
             font-weight: bold;
-            margin-bottom: 6px;
-            text-align: center;
+            margin-bottom: 0;
+            text-align: left;
             letter-spacing: 1px;
             flex-shrink: 0;
-            position: relative;
-            top: 15px;
         }
         #memo-date {
-            color: #888;
+            color: var(--memo-muted-ink);
             font-size: 10px;
-            margin-bottom: 8px;
-            text-align: right;
+            margin-bottom: 0;
+            text-align: left;
             flex-shrink: 0;
+        }
+        .memo-content-safe {
+            flex: 1 1 0;
+            min-height: 0;
+            padding-left: var(--memo-content-inset-left);
+            padding-right: 8px;
             position: relative;
-            left: -40px; /* move date left by 40px */
-            top: -10px;
+            z-index: 1;
+            overflow: auto;
         }
         #memo-content {
-            color: #3b3b32;
+            color: var(--memo-body-ink);
             font-size: 12px;
             line-height: 1.8;
-            white-space: pre-wrap;
+            white-space: normal;
             word-wrap: break-word;
+            overflow-x: hidden;
             overflow-y: auto;
-            flex-grow: 1;
+            flex: 1 1 0;
+            min-height: 0;
+            width: 100%;
             padding-right: 4px;
-            position: relative;
-            left: 100px; /* move content right by 100px */
-            top: -10px;
+            scrollbar-width: none;
+        }
+        .memo-markdown {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 0;
+            padding-bottom: 2px;
+            text-shadow: 0 1px 0 rgba(255, 247, 221, 0.4);
+        }
+        .memo-markdown h1,
+        .memo-markdown h2,
+        .memo-markdown h3,
+        .memo-markdown p,
+        .memo-markdown ul,
+        .memo-markdown pre,
+        .memo-markdown blockquote {
+            margin: 0;
+        }
+        .memo-markdown h1,
+        .memo-markdown h2,
+        .memo-markdown h3 {
+            color: var(--memo-accent);
+            line-height: 1.35;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(31, 41, 64, 0.18);
+            letter-spacing: 0.2px;
+        }
+        .memo-markdown h1 { font-size: 13px; }
+        .memo-markdown h2 { font-size: 12px; }
+        .memo-markdown h3 { font-size: 11px; }
+        .memo-markdown p,
+        .memo-markdown li,
+        .memo-markdown blockquote {
+            color: var(--memo-body-ink);
+            font-size: 12px;
+            line-height: 1.65;
+        }
+        .memo-markdown ul {
+            padding-left: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .memo-markdown li::marker {
+            color: var(--memo-accent);
+        }
+        .memo-markdown blockquote {
+            padding: 6px 8px;
+            border-left: 3px solid rgba(31, 41, 64, 0.35);
+            background: var(--memo-paper);
+            box-shadow: inset 0 0 0 1px var(--memo-frame);
+        }
+        .memo-markdown code {
+            font-family: 'ArkPixel', monospace;
+            font-size: 11px;
+            padding: 1px 4px;
+            border-radius: 0;
+            background: rgba(31, 41, 64, 0.14);
+            color: var(--memo-accent);
+        }
+        .memo-markdown pre {
+            overflow-x: auto;
+            padding: 7px 8px;
+            background: var(--memo-code-bg);
+            box-shadow: inset 0 0 0 1px rgba(247, 233, 171, 0.14);
+        }
+        .memo-markdown pre code {
+            display: block;
+            padding: 0;
+            background: transparent;
+            color: var(--memo-code-fg);
+            line-height: 1.45;
+            white-space: pre;
+        }
+        .memo-markdown a {
+            color: #214f8b;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+            word-break: break-word;
+        }
+        .memo-markdown strong {
+            color: #25231b;
+        }
+        .memo-markdown em {
+            color: #5d4037;
         }
         #memo-content::-webkit-scrollbar {
-            width: 6px;
+            width: 0;
+            height: 0;
         }
         #memo-content::-webkit-scrollbar-track {
             background: #1a1a2e;
@@ -953,6 +1065,7 @@
             color: #555;
             font-size: 10px;
             flex-shrink: 0;
+            padding-left: var(--memo-content-inset-left);
         }
 
         /* 手机端专属适配（不影响桌面） */
@@ -1004,7 +1117,6 @@
                 margin-left: 0 !important;
             }
 
-            #memo-panel,
             #control-bar,
             #guest-agent-panel {
                 width: 100%;
@@ -1012,20 +1124,32 @@
                 min-height: 180px;
             }
 
-            #memo-panel { min-height: 220px; }
+            #memo-panel {
+                --memo-content-inset-left: 50px;
+                width: 100%;
+                height: 220px;
+                min-height: 220px;
+                background-position: left -18px center;
+                background-size: 112% auto;
+            }
             #control-bar { min-height: 210px; }
             #guest-agent-panel { min-height: 220px; }
 
-            #memo-date {
-                left: 0;
-                text-align: left;
-                margin-bottom: 6px;
-            }
             #memo-content {
-                left: 0;
                 font-size: 13px;
                 line-height: 1.7;
             }
+            .memo-markdown {
+                gap: 9px;
+            }
+            .memo-markdown p,
+            .memo-markdown li,
+            .memo-markdown blockquote {
+                font-size: 13px;
+            }
+            .memo-markdown h1 { font-size: 14px; }
+            .memo-markdown h2 { font-size: 13px; }
+            .memo-markdown h3 { font-size: 12px; }
 
             #control-bar-title,
             #guest-agent-panel-title,
@@ -1146,14 +1270,18 @@
         </div>
 
     <!-- 底部面板容器 -->
-    <div id="bottom-panels">
+        <div id="bottom-panels">
         <!-- Memo 面板 -->
         <div id="memo-panel">
-            <div id="memo-title">昨 日 小 记</div>
-            <div id="memo-date"></div>
+            <div class="memo-header">
+                <div id="memo-title">昨 日 小 记</div>
+                <div id="memo-date"></div>
+            </div>
             <div class="memo-decoration">─ ─ ─ ─ ─</div>
-            <div id="memo-content">
-                <div id="memo-placeholder">加载中...</div>
+            <div class="memo-content-safe">
+                <div id="memo-content">
+                    <div id="memo-placeholder">加载中...</div>
+                </div>
             </div>
             <div class="memo-decoration">─ ─ ─ ─ ─</div>
         </div>
@@ -1287,6 +1415,7 @@
         <button id="lang-btn-cn" onclick="setUILanguage('zh')" style="padding:8px 10px; font-family:ArkPixel,monospace; font-size:13px; cursor:pointer; border:2px solid #333; border-radius:5px; background:#333; color:#fff;">CN</button>
     </div>-->
 
+    <script src="static/memo-markdown.js?v={{VERSION_TIMESTAMP}}"></script>
     <script src="static/vendor/phaser-3.80.1.min.js?v={{VERSION_TIMESTAMP}}"></script>
     <script>
         // 简易中英文切换
@@ -1392,6 +1521,21 @@
             if (!panel) return;
             panel.style.backgroundImage = "url('static/memo-bg.webp?v={{VERSION_TIMESTAMP}}')";
             panel.classList.remove('no-bg');
+        }
+
+        function escapeMemoFallbackHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderMemoFallbackHtml(text) {
+            const safeText = typeof text === 'string' ? text : '';
+            if (!safeText.trim()) return '';
+            return `<div class="memo-markdown memo-markdown--plain"><p>${escapeMemoFallbackHtml(safeText).replace(/\n/g, '<br>')}</p></div>`;
         }
 
         function applyLanguage() {
@@ -1561,14 +1705,18 @@
         async function loadMemo() {
             const memoDate = document.getElementById('memo-date');
             const memoContent = document.getElementById('memo-content');
+            const memoApi = window.memoMarkdown;
 
             try {
                 const response = await fetch('yesterday-memo?t=' + Date.now(), { cache: 'no-store' });
                 const data = await response.json();
+                const memoSource = memoApi ? memoApi.pickMemoSource(data) : (data.memo_markdown || data.memo || '');
 
-                if (data.success && data.memo) {
+                if (data.success && memoSource && memoSource.trim()) {
                     memoDate.textContent = data.date || '';
-                    memoContent.innerHTML = data.memo.replace(/\n/g, '<br>');
+                    memoContent.innerHTML = memoApi
+                        ? memoApi.renderMemoHtml(memoSource)
+                        : renderMemoFallbackHtml(memoSource);
                 } else {
                     memoContent.innerHTML = '<div id="memo-placeholder">暂无昨日日记</div>';
                 }

@@ -7,8 +7,23 @@ Reads and sanitizes daily memo content from memory/*.md for the yesterday-memo A
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import os
 import random
 import re
+
+
+WISDOM_QUOTES = [
+    "「工欲善其事，必先利其器。」",
+    "「不积跬步，无以至千里；不积小流，无以成江海。」",
+    "「知行合一，方可致远。」",
+    "「业精于勤，荒于嬉；行成于思，毁于随。」",
+    "「路漫漫其修远兮，吾将上下而求索。」",
+    "「昨夜西风凋碧树，独上高楼，望尽天涯路。」",
+    "「衣带渐宽终不悔，为伊消得人憔悴。」",
+    "「众里寻他千百度，蓦然回首，那人却在，灯火阑珊处。」",
+    "「世事洞明皆学问，人情练达即文章。」",
+    "「纸上得来终觉浅，绝知此事要躬行。」",
+]
 
 
 def get_yesterday_date_str() -> str:
@@ -28,6 +43,52 @@ def sanitize_content(text: str) -> str:
     text = re.sub(r'1[3-9]\d{9}', '[手机号]', text)
 
     return text
+
+
+def _extract_date_from_filename(file_path: str) -> str | None:
+    base = os.path.basename(file_path or "")
+    match = re.match(r"^(\d{4}-\d{2}-\d{2})\.md$", base)
+    return match.group(1) if match else None
+
+
+def _get_wisdom_quote() -> str:
+    return random.choice(WISDOM_QUOTES)
+
+
+def extract_markdown_memo_from_file(file_path: str) -> str:
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        if not content.strip():
+            return ""
+
+        redacted = sanitize_content(content)
+        lines = redacted.splitlines()
+        date_str = _extract_date_from_filename(file_path)
+
+        if lines and date_str:
+            first_non_empty = None
+            for idx, line in enumerate(lines):
+                if line.strip():
+                    first_non_empty = idx
+                    break
+
+            if first_non_empty is not None:
+                date_heading_pattern = rf"^\s*#{{1,6}}\s*{re.escape(date_str)}\s*$"
+                if re.match(date_heading_pattern, lines[first_non_empty]):
+                    del lines[first_non_empty]
+                    if first_non_empty < len(lines) and not lines[first_non_empty].strip():
+                        del lines[first_non_empty]
+
+        body = "\n".join(lines).strip()
+        if not body:
+            return ""
+
+        return f"{body}\n\n{_get_wisdom_quote()}"
+    except Exception as e:
+        print(f"extract_markdown_memo_from_file failed: {e}")
+        return ""
 
 
 def extract_memo_from_file(file_path: str) -> str:
@@ -58,21 +119,7 @@ def extract_memo_from_file(file_path: str) -> str:
         # 从核心内容中提取 2-3 个关键点
         selected_points = core_points[:3]
 
-        # 睿智语录库
-        wisdom_quotes = [
-            "「工欲善其事，必先利其器。」",
-            "「不积跬步，无以至千里；不积小流，无以成江海。」",
-            "「知行合一，方可致远。」",
-            "「业精于勤，荒于嬉；行成于思，毁于随。」",
-            "「路漫漫其修远兮，吾将上下而求索。」",
-            "「昨夜西风凋碧树，独上高楼，望尽天涯路。」",
-            "「衣带渐宽终不悔，为伊消得人憔悴。」",
-            "「众里寻他千百度，蓦然回首，那人却在，灯火阑珊处。」",
-            "「世事洞明皆学问，人情练达即文章。」",
-            "「纸上得来终觉浅，绝知此事要躬行。」"
-        ]
-
-        quote = random.choice(wisdom_quotes)
+        quote = _get_wisdom_quote()
 
         # 组合内容
         result = []

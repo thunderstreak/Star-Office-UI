@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Star Office UI - Backend State Service"""
 
-from flask import Flask, jsonify, send_from_directory, make_response, request, session
+from flask import Flask, jsonify, send_from_directory, make_response, request, session  # pyright: ignore[reportMissingImports]
 from datetime import datetime, timedelta
 import json
 import os
@@ -14,7 +14,12 @@ import tempfile
 import threading
 from pathlib import Path
 from security_utils import is_production_mode, is_strong_secret, is_strong_drawer_pass
-from memo_utils import get_yesterday_date_str, sanitize_content, extract_memo_from_file
+from memo_utils import (
+    get_yesterday_date_str,
+    sanitize_content,
+    extract_memo_from_file,
+    extract_markdown_memo_from_file,
+)
 from store_utils import (
     load_agents_state as _store_load_agents_state,
     save_agents_state as _store_save_agents_state,
@@ -29,7 +34,7 @@ from store_utils import (
 )
 
 try:
-    from PIL import Image
+    from PIL import Image  # pyright: ignore[reportMissingImports]
 except Exception:
     Image = None
 
@@ -1270,20 +1275,28 @@ def get_yesterday_memo():
         
         if target_file and os.path.exists(target_file):
             memo_content = extract_memo_from_file(target_file)
+            memo_markdown = extract_markdown_memo_from_file(target_file)
+            if not memo_markdown:
+                memo_markdown = memo_content
             return jsonify({
                 "success": True,
                 "date": target_date,
-                "memo": memo_content
+                "memo": memo_content,
+                "memo_markdown": memo_markdown,
             })
         else:
             return jsonify({
                 "success": False,
-                "msg": "没有找到昨日日记"
+                "msg": "没有找到昨日日记",
+                "memo": "",
+                "memo_markdown": "",
             })
     except Exception as e:
         return jsonify({
             "success": False,
-            "msg": str(e)
+            "msg": str(e),
+            "memo": "",
+            "memo_markdown": "",
         }), 500
 
 
@@ -1495,7 +1508,7 @@ def assets_restore_reference_background():
         # 快速路径：若参考图已是 1280x720 的 webp，直接拷贝（秒级）
         ref_ext = os.path.splitext(ROOM_REFERENCE_IMAGE)[1].lower()
         fast_copied = False
-        if ref_ext == '.webp':
+        if ref_ext == '.webp' and Image is not None:
             try:
                 with Image.open(ROOM_REFERENCE_IMAGE) as rim:
                     if rim.size == (1280, 720):
@@ -2100,4 +2113,3 @@ if __name__ == "__main__":
     print("=" * 50)
 
     app.run(host="0.0.0.0", port=backend_port, debug=False)
-
